@@ -3,18 +3,18 @@ using UnityEngine;
 
 namespace Assets.Scripts.Weapons
 {
-    public class WeaponFactory 
+    public class WeaponFactory
     {
-   public static AbstractWeapons GetWeapon(string objectName)
+        public static AbstractWeapons GetWeapon(string objectName, GameObject obj)
         {
-            switch(objectName)
+            switch (objectName)
             {
                 case "Shotgun":
-                    return new Shotgun();
+                    return obj.gameObject.GetComponentInChildren<Shotgun>(true);
                 case "Pistol":
-                    return new Pistol();
+                    return obj.gameObject.GetComponentInChildren<Pistol>(true);
                 default:
-                    return new Rifle();
+                    return obj.gameObject.GetComponentInChildren<Rifle>(true);
             }
         }
     }

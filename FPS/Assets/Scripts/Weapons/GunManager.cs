@@ -9,6 +9,8 @@ public class GunManager : MonoBehaviour
 {
     // Start is called before the first frame update
     public Text weaponName;
+    public Text ammoInfo;
+   
     void Start()
     {
         SetWeapon(0);
@@ -49,6 +51,8 @@ public class GunManager : MonoBehaviour
     {
         GameObject weapon = transform.GetChild(index).gameObject;
         weapon.SetActive(true);
-        weaponName.text = WeaponFactory.GetWeapon(weapon.name).GetName();
+        AbstractWeapons currentWeapon = WeaponFactory.GetWeapon(weapon.gameObject.name, transform.gameObject);
+        weaponName.text = currentWeapon.GetName();
+        ammoInfo.text = currentWeapon.GetAmmoInfo();
     }
 }

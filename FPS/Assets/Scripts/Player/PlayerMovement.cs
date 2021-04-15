@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Events;
+using Assets.Scripts.GameManager;
+using Assets.Scripts.PowerUp;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,9 +18,21 @@ public class PlayerMovement : MonoBehaviour
     public Transform groundCheck;
     public float groudDistance = 0.4f;
     public LayerMask groundMask;
+    public AudioSource audio;
 
+    private SoundEvents _playerSounds;
 
+    private Vector3 lastPosition = new Vector3(0, 0, 0);
 
+    public void OnEnable()
+    {
+        _playerSounds = GetComponent<SoundEvents>();
+    }
+
+    private void Start()
+    {
+        lastPosition = gameObject.transform.position;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -37,10 +52,12 @@ public class PlayerMovement : MonoBehaviour
         _velocity.y += gravity * Time.deltaTime;
 
         controller.Move(_velocity * Time.deltaTime);
-
-        if(Input.GetButton("Jump") && _isGrounded)
+  
+        if (Input.GetButton("Jump") && _isGrounded)
         {
-            _velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
+            _playerSounds.CallJumpSound();
+            SuperJumpPack power = PowerUpsManager.Instance.GetActivePowerByType<SuperJumpPack>();
+            _velocity.y = Mathf.Sqrt((jumpHeight * (power!= null? power.jumpPower : 1 )) * -2 * gravity);
         }
 
     }

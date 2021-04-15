@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Weapons;
+using Assets.Scripts.Weapons.FixedWeapons;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ public class GunManager : MonoBehaviour
     public Text weaponName;
     public Text ammoInfo;
    
+
     void Start()
     {
         SetWeapon(0);
@@ -51,8 +53,7 @@ public class GunManager : MonoBehaviour
     {
         GameObject weapon = transform.GetChild(index).gameObject;
         weapon.SetActive(true);
-        AbstractWeapons currentWeapon = WeaponFactory.GetWeapon(weapon.gameObject.name, transform.gameObject);
-        weaponName.text = currentWeapon.GetName();
-        ammoInfo.text = currentWeapon.GetAmmoInfo();
+        weaponName.text = weapon.GetComponent<AbstractWeaponInfo>().GetWeaponName();
+        ammoInfo.text = weapon.GetComponent<AmmoBase>().GetAmmoInfo();
     }
 }
